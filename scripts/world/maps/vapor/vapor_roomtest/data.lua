@@ -1,7 +1,8 @@
 return {
-  version = "1.5",
+  version = "1.10",
   luaversion = "5.1",
-  tiledversion = "1.8.6",
+  tiledversion = "1.10.0",
+  class = "",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 32,
@@ -9,7 +10,7 @@ return {
   tilewidth = 40,
   tileheight = 40,
   nextlayerid = 8,
-  nextobjectid = 38,
+  nextobjectid = 41,
   properties = {
     ["border"] = "vaporwave",
     ["music"] = "forest"
@@ -20,6 +21,12 @@ return {
       firstgid = 1,
       filename = "../../../tilesets/vapor.tsx",
       exportfilename = "../../../tilesets/vapor.lua"
+    },
+    {
+      name = "stenc",
+      firstgid = 22,
+      filename = "../../../tilesets/stenc.tsx",
+      exportfilename = "../../../tilesets/stenc.lua"
     }
   },
   layers = {
@@ -28,6 +35,7 @@ return {
       draworder = "topdown",
       id = 6,
       name = "objects_bg",
+      class = "",
       visible = true,
       opacity = 1,
       offsetx = 0,
@@ -45,6 +53,7 @@ return {
       height = 24,
       id = 1,
       name = "Tile Layer 1",
+      class = "",
       visible = true,
       opacity = 1,
       offsetx = 0,
@@ -85,6 +94,7 @@ return {
       draworder = "topdown",
       id = 2,
       name = "collision",
+      class = "",
       visible = true,
       opacity = 1,
       offsetx = 0,
@@ -347,6 +357,7 @@ return {
       draworder = "topdown",
       id = 5,
       name = "paths",
+      class = "",
       visible = true,
       opacity = 1,
       offsetx = 0,
@@ -375,6 +386,7 @@ return {
       draworder = "topdown",
       id = 3,
       name = "objects",
+      class = "",
       visible = true,
       opacity = 1,
       offsetx = 0,
@@ -479,6 +491,48 @@ return {
           properties = {
             ["item"] = "mediumpizza"
           }
+        },
+        {
+          id = 38,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 295.41,
+          y = 452.371,
+          width = 167,
+          height = 86,
+          rotation = 0,
+          gid = 22,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 39,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 507.549,
+          y = 460.398,
+          width = 167,
+          height = 86,
+          rotation = 0,
+          gid = 22,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 40,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 672.673,
+          y = 456.957,
+          width = 167,
+          height = 86,
+          rotation = 0,
+          gid = 22,
+          visible = true,
+          properties = {}
         }
       }
     },
@@ -487,6 +541,7 @@ return {
       draworder = "topdown",
       id = 4,
       name = "markers",
+      class = "",
       visible = true,
       opacity = 1,
       offsetx = 0,

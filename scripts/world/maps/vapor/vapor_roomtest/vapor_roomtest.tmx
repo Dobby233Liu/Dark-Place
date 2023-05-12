@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="32" height="24" tilewidth="40" tileheight="40" infinite="0" nextlayerid="8" nextobjectid="38">
+<map version="1.10" tiledversion="1.10.0" orientation="orthogonal" renderorder="right-down" width="32" height="24" tilewidth="40" tileheight="40" infinite="0" nextlayerid="8" nextobjectid="41">
  <editorsettings>
   <export target="data.lua" format="lua"/>
  </editorsettings>
@@ -8,6 +8,7 @@
   <property name="music" value="forest"/>
  </properties>
  <tileset firstgid="1" source="../../../tilesets/vapor.tsx"/>
+ <tileset firstgid="22" source="../../../tilesets/stenc.tsx"/>
  <objectgroup color="#ffaaff" id="6" name="objects_bg"/>
  <layer id="1" name="Tile Layer 1" width="32" height="24">
   <data encoding="csv">
@@ -100,6 +101,9 @@
     <property name="item" value="mediumpizza"/>
    </properties>
   </object>
+  <object id="38" gid="22" x="295.41" y="452.371" width="167" height="86"/>
+  <object id="39" gid="22" x="507.549" y="460.398" width="167" height="86"/>
+  <object id="40" gid="22" x="672.673" y="456.957" width="167" height="86"/>
  </objectgroup>
  <objectgroup color="#7f00ff" id="4" name="markers">
   <object id="25" name="entry1" x="1240" y="160">
