@@ -8,25 +8,43 @@ function preview:init(mod, button, menu)
     self.mod_id = mod.id
     self.base_path = mod.path.."/preview"
     local function p(f) return self.base_path .. "/" .. f end
+    local function im(f) return love.graphics.newImage(p(f)) end
 
     self.particles = {}
     self.particle_interval = 0
-    self.particle_tex = love.graphics.newImage(p("star.png"))
+    self.particle_tex = im("star.png")
     self.particle_interval_dess = Utils.random(1*2.2, 6.9*4*20*3, 0.25)
-    self.particle_tex_dess = love.graphics.newImage(p("dess.png"))
+    self.particle_tex_dess = im("dess.png")
 
     local date = os.date("*t")
     if date.month == 4 and date.day == 1 then
         self.april_fools = true
         local function p_a(f) return self.base_path .. "/april_1/" .. f end
-        self.particle_tex = love.graphics.newImage(p_a("star.png"))
+        local function im_a(f) return love.graphics.newImage(p_a(f)) end
+        self.particle_tex = im_a("star.png")
     end
 
     if date.month == 4 and date.day == 20 then
-        self.particle_tex = love.graphics.newImage(p("doobie.png"))
+        self.particle_tex = im("doobie.png")
     end
 
-    self.bg_gradient_siner = 0
+    self.gradient_pattern = im("gradient_pattern.png")
+    self.gradient_pattern_quads = {}
+    for i = 1, 10 do
+        local part = 10 - (i - 1)
+        local part_height = 8
+        self.gradient_pattern_quads[part] = love.graphics.newQuad(
+            0, self.gradient_pattern:getHeight()-i*part_height,
+            self.gradient_pattern:getWidth(), part_height,
+            self.gradient_pattern:getDimensions()
+        )
+    end
+    self.gradient_color = Utils.hexToRgb("#45459E")
+    if self.april_fools then
+        self.gradient_color = Utils.hexToRgb("#BABA61")
+    end
+    table.remove(self.gradient_color, 4)
+    self.gradient_siner = Kristal.getTime()
 
     self.naming_swellow = nil
     self.naming_swellow_timer = 0
@@ -39,7 +57,7 @@ function preview:init(mod, button, menu)
 end
 
 function preview:update()
-    self.bg_gradient_siner = self.bg_gradient_siner + 0.2 * DTMULT
+    self.gradient_siner = self.gradient_siner + 0.2 * DTMULT
 
     local particle_to_remove = {}
     for _,particle in ipairs(self.particles) do
@@ -150,19 +168,22 @@ function preview:draw()
     end
     love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
-    -- gradient background ported over from Asgore's fight in UT
-    local gradient_weave = 1.5 + math.sin(self.bg_gradient_siner / 20)
-    for i = 0, 10 do
-        local gradient_alpha = 0.8 - i / 16
-        if self.april_fools then
-            love.graphics.setColor(186/255, 186/255, 97/255, gradient_alpha * self.fade)
-        else
-            love.graphics.setColor(69/255, 69/255, 158/255, gradient_alpha * self.fade)
+    local gradient_weave = math.sin(self.gradient_siner / 20)
+    local gradient_pattern_width = self.gradient_pattern:getWidth() * 2
+    local quad_amt = #self.gradient_pattern_quads
+    for i = 0, SCREEN_WIDTH, gradient_pattern_width do
+        local y = SCREEN_HEIGHT
+        for j = 1, Utils.clamp(quad_amt--[[ - gradient_weave * quad_amt]], 1, quad_amt) do
+            local j_ndx = Utils.clamp(math.floor(j - 1), 0, #self.gradient_pattern_quads - 1)
+            local quad = self.gradient_pattern_quads[quad_amt - j_ndx]
+            love.graphics.setColor(
+                self.gradient_color[1], self.gradient_color[2], self.gradient_color[3],
+                self.fade * (1 - (math.min(1, gradient_weave*5 + j/5) + j/5) * 0.6)
+            )
+            local x_scale, y_scale = 2, 2 - Utils.round((gradient_weave*10 - j_ndx/5) / 10, 1/50)
+            y = y - 8*y_scale
+            love.graphics.draw(self.gradient_pattern, quad, i, y, 0, x_scale, y_scale, 0, 0)
         end
-        love.graphics.rectangle("fill",
-            0, SCREEN_HEIGHT - math.pow(i, 2) * gradient_weave,
-            SCREEN_WIDTH, SCREEN_HEIGHT - math.pow(i + 1, 2) * gradient_weave
-        )
     end
 
     love.graphics.setColor(1, 1, 1, self.fade)
@@ -219,7 +240,7 @@ function preview:draw()
             video=%s(p=%d f=%.2f)]],
             self.fade, self.menu.selected_mod and self.menu.selected_mod.id, TARGET_MOD and string.format("(%s)", TARGET_MOD) or "",
             self.april_fools and "y" or "n",
-            self.bg_gradient_siner,
+            self.gradient_siner,
             self.particle_interval, self.particle_interval_dess,
             namer and namer.state or "", namer and string.upper(namer.name) or "",
             self.naming_swellow and "y" or "n", self.naming_swellow_timer, namer and namer.whiten or 0,
